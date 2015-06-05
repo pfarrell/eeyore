@@ -1,0 +1,7 @@
+%h1
+  Select a data type to report 
+-entries.each do |entry|
+  %p
+    %a{href:"#{url_for("/entries/#{entry.group}")}"}
+      #{entry.group}
+
