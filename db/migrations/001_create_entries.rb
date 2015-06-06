@@ -5,7 +5,7 @@ Sequel.migration do
       String :group
       String :type
       DateTime :date
-      String :data
+      column :data, :json, default: Sequel.pg_json({})
       DateTime :created_at
       DateTime :updated_at
     end
