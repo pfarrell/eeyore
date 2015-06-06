@@ -1,6 +1,7 @@
 %h2
-  =title
+  %a{href:"/entries/#{group}"}
+    =group
 -types.each do |entry|
-  %a{href:"/entries/#{entry.group}/#{entry.type}"}
+  %a.btn.btn-primary{href:"/entries/#{entry.group}/#{entry.type}"}
     =entry.type
 =haml :'partials/lambda_list', locals: {model: model}

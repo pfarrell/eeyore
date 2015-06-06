@@ -19,12 +19,12 @@ class App < Sinatra::Application
 
   get "/entries/:group" do
     data = Entry.select(:type, :date, :data).where(group: params[:group]).order(Sequel.desc(:date))
-    haml :report, locals: {title: params[:group].upcase, model: {header: group_header, data: data}, types: Entry.types(params[:group])} 
+    haml :report, locals: {group: params[:group], model: {header: group_header, data: data}, types: Entry.types(params[:group])} 
   end
 
   get "/entries/:group/:type" do
     data = Entry.select(:type, :date, :data).where(group: params[:group], type: params[:type]).order(Sequel.desc(:date))
-    haml :specific, locals: {title: params[:group].upcase, model: {header: specific_header, data: data}} 
+    haml :specific, locals: {group: params[:group], type: params[:type], model: {header: specific_header, data: data}} 
   end
 
   post "/entries/:group" do
