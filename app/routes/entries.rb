@@ -1,6 +1,4 @@
-
 require 'date'
-    require 'byebug'
 
 class App < Sinatra::Application
 
