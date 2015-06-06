@@ -4,6 +4,9 @@
       -model[:header].each do |header|
         %th
           =header[0]
+      -model[:data].first.data.each do |k,v|
+        %th
+          =k
   %tbody
     %tr
       -model[:data].each do |defn|
@@ -16,3 +19,6 @@
                 -else
                   %a{href:"#{prop[:link].call(defn)}"}
                     =prop[:value].call(defn)
+          -defn.data.each do |k,v|
+            %td
+              =v
