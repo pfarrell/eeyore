@@ -1,7 +1,8 @@
+=haml :'partials/paging', locals: {group: "#{group}", model: model}
 %h2
   %a{href:"/entries/#{group}"}
     =group
 -types.each do |entry|
-  %a.btn.btn-primary{href:"/entries/#{entry.group}/#{entry.type}"}
+  %a.btn.btn-primary{href:"/entries/#{entry.group}/type/#{entry.type}"}
     =entry.type
 =haml :'partials/lambda_list', locals: {model: model}

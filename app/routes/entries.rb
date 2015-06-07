@@ -18,13 +18,23 @@ class App < Sinatra::Application
   end
 
   get "/entries/:group" do
-    data = Entry.select(:type, :date, :data).where(group: params[:group]).order(Sequel.desc(:date))
-    haml :report, locals: {group: params[:group], model: {header: group_header, data: data}, types: Entry.types(params[:group])} 
+    redirect "/entries/#{params[:group]}/1"
   end
 
-  get "/entries/:group/:type" do
-    data = Entry.select(:type, :date, :data).where(group: params[:group], type: params[:type]).order(Sequel.desc(:date))
+  get "/entries/:group/type/:type" do
+    redirect "/entries/#{params[:group]}/type/#{params[:type]}/1"
+  end
+
+  get "/entries/:group/type/:type/:page" do
+    page = params[:page].to_i
+    data = Entry.select(:type, :date, :data).where(group: params[:group], type: params[:type]).order(Sequel.desc(:date)).paginate(page, 100)
     haml :specific, locals: {group: params[:group], type: params[:type], model: {header: specific_header, data: data}} 
+  end
+  
+  get "/entries/:group/:page" do
+    page = params[:page].to_i
+    data = Entry.select(:type, :date, :data).where(group: params[:group]).order(Sequel.desc(:date)).paginate(page, 100)
+    haml :report, locals: {group: params[:group], model: {header: group_header, data: data}, types: Entry.types(params[:group])} 
   end
 
   post "/entries/:group" do
