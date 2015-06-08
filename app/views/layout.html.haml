@@ -8,7 +8,9 @@
     %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
     %script{:type => "text/javascript", :src => "#{url_for('/libs/jquery/dist/jquery.min.js')}"}
     %link{:href=>"#{url_for('/libs/bootstrap/dist/css/bootstrap.min.css')}", :rel=>"stylesheet"}
+    %link{:rel => "stylesheet", :href => "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
     %script{:src=>"#{url_for('/libs/bootstrap/dist/js/bootstrap.min.js')}"}
+    %script{type: "text/javascript", src: "#{url_for "/libs/devbridge-autocomplete/dist/jquery.autocomplete.min.js"}"}
   %body
     %nav.navbar.navbar-default{role: "navigation"}
       .navbar-header
@@ -36,4 +38,11 @@
         patf
       joint
 :javascript
+  $('#q').autocomplete({
+    serviceUrl: '#{url_for "/search/gds/tags"}',
+    paramName: 'q',
+    minChars: 1,
+    lookupLimit: 50,
+    autoSelectFirst: true,
+  });
 

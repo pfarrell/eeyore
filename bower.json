@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "masonry": "~3.1.5",
-    "bootstrap": "~3.3.0"
+    "bootstrap": "~3.3.0",
+    "devbridge-autocomplete": "~1.2.14"
   },
   "homepage": "https://github.com/pfarrell/sinatra-shell",
   "authors": [

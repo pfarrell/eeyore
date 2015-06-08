@@ -6,6 +6,11 @@ class App < Sinatra::Application
     props
   end
 
+  get "/search/:group/tags" do
+    group = Group.find(name: params[:group])
+    {"suggestions"=>Tag.where(group: group).where(Sequel.ilike(:tag, "#{params[:q]}%")).map{|x| x.tag}}.to_json
+  end
+
   get "/search/:group" do
     group = Group.find(name: params[:group])
     tags = Tag.find(group: group, tag: params[:q])
