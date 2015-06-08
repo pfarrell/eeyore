@@ -13,7 +13,7 @@ class App < Sinatra::Application
   def specific_header
     props={}
     props["date"]={value:lambda{|x| x.date}}
-    props["tags"]={value:lambda{|x| x.tags.map{|x| x.tag}.join(", ")}}
+    props["tags"]={value:lambda{|x| x.tags.map{|y| y.tag}.join(", ")}}
     props
   end
 
@@ -28,7 +28,7 @@ class App < Sinatra::Application
   get "/entries/:group/tag/:tag/:page" do
     page = params[:page].to_i
     group = Group.find(name: params[:group])
-    data = Entry.where(group: group).join(:entries_tags, entry_id: :id).join(:tags, id: :tag_id).where(tag: params[:tag]).paginate(page, 100)
+    data = Tag.find(group: group, tag: params[:tag]).entries
     haml :specific, locals: {group: group.name, tag: params[:tag], model: {header: specific_header, data: data}} 
   end
   
@@ -62,9 +62,8 @@ class App < Sinatra::Application
   
   def handle_tags(entry, arr)
     arr.each do |tag| 
-      cnt = Tag.join(:entries_tags, tag_id: :id).where(entry_id: entry.id, tag: tag).count
-      if cnt == 0
-        tag = Tag.new(group: entry.group, tag: tag)
+      tag = Tag.find_or_create(group: entry.group, tag: tag)
+      if entry.tags.select{|x| x == tag}.count == 0
         entry.add_tag tag
         tag.save
       end
