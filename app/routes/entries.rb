@@ -4,8 +4,8 @@ class App < Sinatra::Application
 
   def group_header
     props={}
-    props["date"]={value:lambda{|x| x.date}}
-    props["data"]={value:lambda{|x| x.data}}
+    props["date"]={value:lambda{|x| x.date.strftime("%Y-%m-%d %H:%M:%S")}}
+    props["data"]={value:lambda{|x| x.data.to_json}}
     props["tags"]={value:lambda{|x| x.tags.map{|x| x.tag}.join(", ")}}
     props
   end

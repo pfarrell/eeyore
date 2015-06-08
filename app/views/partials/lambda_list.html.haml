@@ -14,8 +14,6 @@
                 - prop[:value].call(defn).split(", ").each do |tag|
                   %a{href: "#{base}/tag/#{tag}"}
                     =tag
-              -elsif name == "data"
-                =prop[:value].call(defn).to_json
               -else
                 .table-data
                   -if prop[:link].nil?
