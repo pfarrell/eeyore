@@ -5,6 +5,8 @@
   with tag 
   %a{href:"/entries/#{group}/tag/#{tag}"}
     =tag
+  .pull-right
+    (#{model[:data].size} records)
 %table.table.table-condensed
   %thead
     %tr
