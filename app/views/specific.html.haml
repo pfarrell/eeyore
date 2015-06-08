@@ -1,8 +1,8 @@
 //=haml :'partials/paging', locals: {group: "#{group}", model: model, base: "/entries/#{group}/tag/#{tag}"}
 %h2
   %a{href:"/entries/#{group}"}
-    =group
-  \/
+    =group.upcase
+  with tag 
   %a{href:"/entries/#{group}/tag/#{tag}"}
     =tag
 %table.table.table-condensed
