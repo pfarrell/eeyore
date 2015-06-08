@@ -18,8 +18,6 @@ class App < Sinatra::Application
   end
 
   get "/entries/:group/errors" do
-    require 'byebug'
-    byebug
     group = Group.find(name: params[:group])
     tag = Tag.find(group: group, tag: "ERROR")
     arr = tag.entries.map{|x| x.data["listing_id"]}.uniq
