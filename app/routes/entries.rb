@@ -12,7 +12,7 @@ class App < Sinatra::Application
 
   def specific_header
     props={}
-    props["date"]={value:lambda{|x| x.date}}
+    props["date"]={value:lambda{|x| x.date.strftime("%Y-%m-%d %H:%M:%S")}}
     props["tags"]={value:lambda{|x| x.tags.map{|y| y.tag}.join(", ")}}
     props
   end
