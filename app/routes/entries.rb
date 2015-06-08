@@ -62,9 +62,12 @@ class App < Sinatra::Application
   
   def handle_tags(entry, arr)
     arr.each do |tag| 
-      tag = Tag.find_or_create(group: entry.group, tag: tag)
-      entry.add_tag tag
-      tag.save
+      cnt = Tag.join(:entries_tags, tag_id: :id).where(entry_id: entry.id, tag: tag).count
+      if cnt == 0
+        tag = Tag.new(group: entry.group, tag: tag)
+        entry.add_tag tag
+        tag.save
+      end
     end
   end
 end
