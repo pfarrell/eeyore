@@ -17,6 +17,12 @@ class App < Sinatra::Application
     props
   end
 
+  get "/entries/:group/latest" do
+    group = Group.find(name: params[:group])
+    latest = Entry.where(group: group).order(Sequel.desc(:date)).first
+    latest.to_json
+  end
+
   get "/entries/:group/errors" do
     group = Group.find(name: params[:group])
     tag = Tag.find(group: group, tag: "ERROR")
