@@ -7,4 +7,4 @@
     #{tag[:tag]}
     .small
       (#{tag[:count]})
-=haml :'partials/lambda_list', locals: {model: model}
+=haml :'partials/lambda_list', locals: {model: model, base: "/entries/#{group}"}

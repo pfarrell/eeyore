@@ -9,10 +9,17 @@
       -model[:data].each do |defn|
         %tr
           -model[:header].each do |name, prop|
-            %td
-              .table-data
-                -if prop[:link].nil?
-                  =prop[:value].call(defn)
-                -else
-                  %a{href:"#{prop[:link].call(defn)}"}
+            -if name == "tags"
+              %td
+                - prop[:value].call(defn).split(", ").each do |tag|
+                  %a{href: "#{base}/tag/#{tag}"}
+                    =tag
+
+            -else
+              %td
+                .table-data
+                  -if prop[:link].nil?
                     =prop[:value].call(defn)
+                  -else
+                    %a{href:"#{prop[:link].call(defn)}"}
+                      =prop[:value].call(defn)

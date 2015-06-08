@@ -22,14 +22,10 @@ class App < Sinatra::Application
   end
 
   get "/entries/:group/tag/:tag" do
-    redirect "/entries/#{params[:group]}/tag/#{params[:tag]}/1"
-  end
-
-  get "/entries/:group/tag/:tag/:page" do
     page = params[:page].to_i
     group = Group.find(name: params[:group])
     data = Tag.find(group: group, tag: params[:tag]).entries
-    haml :specific, locals: {group: group.name, tag: params[:tag], model: {header: specific_header, data: data}} 
+    haml :specific, locals: {group: group.name, tag: params[:tag], model: {header: specific_header, data: data}, base: "/entries/#{group.name}"} 
   end
   
   get "/entries/:group/:page" do
