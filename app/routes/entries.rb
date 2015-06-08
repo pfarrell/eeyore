@@ -24,8 +24,15 @@ class App < Sinatra::Application
   get "/entries/:group/tag/:tag" do
     page = params[:page].to_i
     group = Group.find(name: params[:group])
-    data = Tag.find(group: group, tag: params[:tag]).entries
-    haml :specific, locals: {group: group.name, tag: params[:tag], model: {header: specific_header, data: data}, base: "/entries/#{group.name}"} 
+    data = Tag.find(group: group, tag: params[:tag]).entries.sort_by{|entry| entry.date}.reverse
+    haml :specific, locals: {
+      group: group.name, 
+      tag: params[:tag], 
+      model: {
+        header: specific_header, 
+        data: data
+      }, 
+      base: "/entries/#{group.name}"} 
   end
   
   get "/entries/:group/:page" do
