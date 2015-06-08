@@ -1,10 +1,9 @@
 Sequel.migration do
   change do
-    create_table(:entries) do
+    create_table(:tags) do
       primary_key :id
+      String :tag
       Integer :group_id
-      DateTime :date
-      column :data, :json, default: Sequel.pg_json({})
       DateTime :created_at
       DateTime :updated_at
     end
