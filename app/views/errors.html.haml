@@ -1,0 +1,12 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th
+        ListingId
+  %tbody
+    -errors.each do |error|
+      %tr
+        %td
+          .table-data
+            %a{href: "/entries/#{group.name}/tag/#{error}"}
+              =error

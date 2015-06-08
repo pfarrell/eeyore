@@ -17,6 +17,15 @@ class App < Sinatra::Application
     props
   end
 
+  get "/entries/:group/errors" do
+    require 'byebug'
+    byebug
+    group = Group.find(name: params[:group])
+    tag = Tag.find(group: group, tag: "ERROR")
+    arr = tag.entries.map{|x| x.data["listing_id"]}.uniq
+    haml :errors, locals: {group: group, errors: arr}
+  end
+
   get "/entries/:group" do
     redirect "/entries/#{params[:group]}/1"
   end
@@ -42,6 +51,7 @@ class App < Sinatra::Application
     data = Entry.where(group: group).order(Sequel.desc(:date)).paginate(page, 100)
     haml :report, locals: {group: group.name, model: {header: group_header, data: data}, tags: tags} 
   end
+
 
   post "/entries/:group" do
     group = Group.find_or_create(name: params[:group])
