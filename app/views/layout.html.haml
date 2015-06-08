@@ -41,7 +41,7 @@
   $('#q').autocomplete({
     serviceUrl: '#{url_for "/search/gds/tags"}',
     paramName: 'q',
-    minChars: 1,
+    minChars: 3,
     lookupLimit: 50,
     autoSelectFirst: true,
   });
