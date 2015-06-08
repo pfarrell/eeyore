@@ -21,9 +21,6 @@
         %a.navbar-brand{href:"#{url_for("/")}"}
           Home
       .collapse.navbar-collapse#navbar-collapse
-        %form.navbar-form.navbar-left{id: "search", action: "#{url_for("/search")}", method: "GET"}
-          .form-group
-            %input.form-control{type: "TEXT", id: "q", name: "q", autofocus: true, placeholder: "Search"}
         %ul.nav.navbar-nav
           %li
             %a{href:"/entries/gds/errors"}
