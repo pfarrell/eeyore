@@ -28,9 +28,8 @@ class App < Sinatra::Application
   get "/entries/:group/tag/:tag/:page" do
     page = params[:page].to_i
     group = Group.find(name: params[:group])
-    tag = DB[:entries_tags].join(:tags, tag_id: :id).where(group_id: group.id).group_and_count(:tag)
-    data = Entry.where(group: group, tags: tag).order(Sequel.desc(:date)).paginate(page, 100)
-    haml :specific, locals: {group: group.name, tag: tag.tag, model: {header: specific_header, data: data}} 
+    data = Entry.where(group: group).join(:entries_tags, entry_id: :id).join(:tags, id: :tag_id).where(tag: params[:tag]).paginate(page, 100)
+    haml :specific, locals: {group: group.name, tag: params[:tag], model: {header: specific_header, data: data}} 
   end
   
   get "/entries/:group/:page" do
