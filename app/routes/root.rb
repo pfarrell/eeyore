@@ -1,5 +1,5 @@
 class App < Sinatra::Application
   get "/" do
-    haml :index, locals: {entries: Entry.groups}
+    haml :index, locals: {groups: Group.all}
   end
 end

@@ -1,7 +1,7 @@
 %h1
   Select a data type to report 
--entries.each do |entry|
+-groups.each do |group|
   %p
-    %a{href:"#{url_for("/entries/#{entry.group}")}"}
-      #{entry.group}
+    %a{href:"#{url_for("/entries/#{group.name}")}"}
+      #{group.name}
 
