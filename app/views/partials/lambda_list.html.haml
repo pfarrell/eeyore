@@ -9,14 +9,14 @@
       -model[:data].each do |defn|
         %tr
           -model[:header].each do |name, prop|
-            -if name == "tags"
-              %td
+            %td
+              -if name == "tags"
                 - prop[:value].call(defn).split(", ").each do |tag|
                   %a{href: "#{base}/tag/#{tag}"}
                     =tag
-
-            -else
-              %td
+              -elsif name == "data"
+                =prop[:value].call(defn).to_json
+              -else
                 .table-data
                   -if prop[:link].nil?
                     =prop[:value].call(defn)
