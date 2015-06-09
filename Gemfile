@@ -21,4 +21,5 @@ group :development do
   gem 'simplecov'
   gem 'byebug'
   gem 'shotgun'
+  gem 'simplecov-badge'
 end

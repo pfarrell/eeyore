@@ -1,5 +1,5 @@
 class App < Sinatra::Application
-  def specific_header
+  def search_header
     props={}
     props["date"]={value:lambda{|x| x.date.strftime("%Y-%m-%d %H:%M:%S")}}
     props["tags"]={value:lambda{|x| x.tags.map{|y| y.tag}.join(", ")}}
@@ -22,7 +22,7 @@ class App < Sinatra::Application
         group: group.name, 
         tag: params[:q], 
         model: {
-          header: specific_header, 
+          header: search_header, 
           data: data
         }, 
         base: "/entries/#{group.name}"} 
