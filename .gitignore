@@ -1,3 +1,5 @@
 vendor
 coverage
 .bundle
+coverage/**/*
+!coverage/coverage-badge.png
