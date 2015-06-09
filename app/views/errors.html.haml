@@ -3,10 +3,21 @@
     %tr
       %th
         ListingId
+      %th
+        Number of Errors
+      %th
+        Number of Successes
   %tbody
-    -errors.each do |error|
+    -errors.each do |listing_id, counts|
       %tr
         %td
           .table-data
-            %a{href: "/entries/#{group.name}/tag/#{error}"}
-              =error
+            %a{href: "/entries/#{group.name}/tag/#{listing_id}"}
+              =listing_id
+        %td
+          .table-data
+            =counts[0]
+        %td
+          .table-data
+            =counts[1]
+

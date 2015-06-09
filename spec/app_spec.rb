@@ -1,17 +1,21 @@
 require 'spec_helper'
-require 'byebug'
 
 describe 'App' do
 
   let(:group) {Group.find_or_create(name: "test")}
   let(:error_tag) {Tag.find_or_create(group: group, tag:"ERROR")}
+  let(:debug_tag) {Tag.find_or_create(group: group, tag:"DEBUG")}
+  let(:id_tag) {Tag.find_or_create(group: group, tag:"1234")}
   let(:entry) {create_entry}
   let(:json) {{tags:["ERROR"], data: {test: "pat"}}.to_json}
 
   def create_entry
     e = Entry.find_or_create(group: group, date: DateTime.now)
+    e.data = {listing_id: "1234"}
     e.group = group
     e.add_tag error_tag
+    e.add_tag debug_tag
+    e.add_tag id_tag
     e.save
     e
   end
