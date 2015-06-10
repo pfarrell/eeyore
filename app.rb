@@ -28,3 +28,4 @@ end
 
 require 'models'
 require 'routes'
+require 'patches'

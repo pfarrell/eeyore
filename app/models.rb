@@ -14,3 +14,4 @@ Sequel::Model.plugin :json_serializer
 require 'models/entry'
 require 'models/tag'
 require 'models/group'
+require 'models/report'

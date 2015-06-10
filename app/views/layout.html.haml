@@ -30,6 +30,9 @@
           %li
             %a{href:"/entries/gds/errors"}
               Unique Errors
+          %li
+            %a.btn.btn-info{href:"/download.csv?path=#{request.path}"}
+              Download
     .container#content
       =yield
     .container.footer
