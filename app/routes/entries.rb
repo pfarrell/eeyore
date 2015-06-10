@@ -10,9 +10,9 @@ class App < Sinatra::Application
 
   def group_header
     props={}
-    props["date"]={value:lambda{|x| x.date.strftime("%Y-%m-%d %H:%M:%S")}}
-    props["data"]={value:lambda{|x| x.data.to_json}}
-    props["tags"]={value:lambda{|x| x.tags.map{|x| x.tag}.join(", ")}}
+    props["date"]={value:lambda{|x| x[:date].strftime("%Y-%m-%d %H:%M:%S")}}
+    props["data"]={value:lambda{|x| x[:data].to_json}}
+    props["tags"]={value:lambda{|x| x[:tags].map{|x| x}.join(", ")}}
     props
   end
 
@@ -70,7 +70,7 @@ class App < Sinatra::Application
     page = params[:page].to_i
     group = Group.find(name: params[:group])
     tags = DB[:entries_tags].join(:tags, id: :tag_id).where(group_id: group.id).group_and_count(:tag).order(Sequel.desc(:count))
-    data = Entry.where(group: group).eager(:tags).order(Sequel.desc(:date)).paginate(page, 50)
+    data = Entry.with_tags(group).paginate(page, 50)
     haml :report, locals: {group: group.name, model: {header: group_header, data: data}, tags: tags} 
   end
 
