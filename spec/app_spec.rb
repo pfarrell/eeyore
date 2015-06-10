@@ -60,13 +60,25 @@ describe 'App' do
   it "searches groups" do
     e = create_entry
     get "/search/#{group.name}?q=ERROR"
+    expect(last_response).to be_redirect
+  end
+
+  it "searches groups" do
+    e = create_entry
+    get "/search/#{group.name}?q=test"
+    expect(last_response).to be_redirect
+  end
+
+  it "searches groups" do
+    e = create_entry
+    get "/search/#{group.name}/1?q=test"
     expect(last_response).to be_ok
     expect(last_response.body).to match(/Home/)
   end
 
   it "searches groups" do
     e = create_entry
-    get "/search/#{group.name}?q=test"
+    get "/search/#{group.name}/1?q=ERROR"
     expect(last_response).to be_ok
     expect(last_response.body).to match(/Home/)
   end
@@ -74,6 +86,12 @@ describe 'App' do
   it "shows you tags" do
     e = create_entry
     get "/entries/#{group.name}/tag/ERROR"
+    expect(last_response).to be_redirect
+  end
+
+  it "shows you tags" do
+    e = create_entry
+    get "/entries/#{group.name}/tag/ERROR/1"
     expect(last_response).to be_ok
     expect(last_response.body).to match(/Home/)
   end

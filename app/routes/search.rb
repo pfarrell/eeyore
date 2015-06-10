@@ -12,10 +12,15 @@ class App < Sinatra::Application
   end
 
   get "/search/:group" do
+    redirect "/search/#{params[:group]}/1?q=#{params[:q]}" 
+  end
+
+  get "/search/:group/:page" do
+    page = params[:page].to_i
     group = Group.find(name: params[:group])
-    tags = Tag.find(group: group, tag: params[:q])
-    data = tags.nil? ? nil : tags.entries.sort_by{|entry| entry.date}.reverse
-    if data.nil?
+    tag = Tag.find(group: group, tag: params[:q])
+    
+    if tag.nil?
       haml :error, locals: {msg: "No matches"}
     else
       haml :specific, locals: {
@@ -23,7 +28,7 @@ class App < Sinatra::Application
         tag: params[:q], 
         model: {
           header: search_header, 
-          data: data
+          data: Entry.filter(group: group).filter(tags: tag).paginate(page, 50)
         }, 
         base: "/entries/#{group.name}"} 
     end
