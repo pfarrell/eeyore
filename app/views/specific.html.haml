@@ -1,4 +1,4 @@
-//=haml :'partials/paging', locals: {group: "#{group}", model: model, base: "/entries/#{group}/tag/#{tag}"}
+=haml :'partials/paging', locals: {group: "#{group}", model: model, base: "/entries/#{group}/tag/#{tag}"}
 %h2
   %a{href:"/entries/#{group}"}
     =group.upcase
@@ -6,7 +6,7 @@
   %a{href:"/entries/#{group}/tag/#{tag}"}
     =tag
   .pull-right
-    (#{model[:data].size} records)
+    (#{model[:data].pagination_record_count} records)
 %table.table.table-condensed
   %thead
     %tr

@@ -7,7 +7,7 @@
     %li
       %a{href:"#{url_for("#{base}/#{model[:data].current_page + 1}")}"}
         >>
-  -(1..model[:data].page_count).each do |page|
+  - page_seq(model[:data].current_page, model[:data].page_count).each do |page|
     %li{class: ("active" if page == model[:data].current_page)}
       %a{href:"#{url_for("#{base}/#{page}")}"}
         =page

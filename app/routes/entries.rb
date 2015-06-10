@@ -2,6 +2,12 @@ require 'date'
 
 class App < Sinatra::Application
 
+  def page_seq(curr_page, page_count)
+    start = curr_page > 5 ? curr_page - 5 : 1
+    stop = page_count - curr_page > 5 ? curr_page + 5 : page_count
+    return (start..stop)
+  end
+
   def group_header
     props={}
     props["date"]={value:lambda{|x| x.date.strftime("%Y-%m-%d %H:%M:%S")}}
@@ -42,9 +48,14 @@ class App < Sinatra::Application
   end
 
   get "/entries/:group/tag/:tag" do
+    redirect "/entries/#{params[:group]}/tag/#{params[:tag]}/1"
+  end
+
+  get "/entries/:group/tag/:tag/:page" do
     page = params[:page].to_i
     group = Group.find(name: params[:group])
-    data = Tag.find(group: group, tag: params[:tag]).entries.sort_by{|entry| entry.date}.reverse
+    tag = Tag.find(group: group, tag: params[:tag])
+    data = Entry.filter(group: group).filter(tags: tag).paginate(page, 50)
     haml :specific, locals: {
       group: group.name, 
       tag: params[:tag], 
@@ -59,7 +70,7 @@ class App < Sinatra::Application
     page = params[:page].to_i
     group = Group.find(name: params[:group])
     tags = DB[:entries_tags].join(:tags, id: :tag_id).where(group_id: group.id).group_and_count(:tag).order(Sequel.desc(:count))
-    data = Entry.where(group: group).order(Sequel.desc(:date)).paginate(page, 100)
+    data = Entry.where(group: group).eager(:tags).order(Sequel.desc(:date)).paginate(page, 50)
     haml :report, locals: {group: group.name, model: {header: group_header, data: data}, tags: tags} 
   end
 

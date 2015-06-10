@@ -33,10 +33,6 @@
     .container#content
       =yield
     .container.footer
-      A 
-      %a{href:"https://patf.net"}
-        patf
-      joint
 :javascript
   $('#q').autocomplete({
     serviceUrl: '#{url_for "/search/gds/tags"}',
