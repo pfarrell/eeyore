@@ -10,7 +10,7 @@ class App < Sinatra::Application
   helpers Sinatra::UrlForHelper
   register Sinatra::RespondTo
 
-  if ENV["RACK_ENV"] == "production"
+  unless ["production", "test"].select{|x| x == ENV["RACK_ENV"]}.empty?
     use Rack::Auth::Basic, "Restricted Area" do |username, password|
       username == ENV["APP_USER"] and password == ENV["APP_PASS"]
     end
@@ -26,12 +26,6 @@ class App < Sinatra::Application
   end
 
   helpers do
-    def save_file(data, file)
-      require 'byebug'
-      byebug
-
-    end
-
     def download_link
       "#{request.path}?#{request.query_string}&format=csv"
     end

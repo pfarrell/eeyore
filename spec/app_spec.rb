@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'App' do
+  include RSpecMixin
 
   let(:group) {Group.find_or_create(name: "test")}
   let(:error_tag) {Tag.find_or_create(group: group, tag:"ERROR")}
@@ -8,6 +9,10 @@ describe 'App' do
   let(:id_tag) {Tag.find_or_create(group: group, tag:"1234")}
   let(:entry) {create_entry}
   let(:json) {{tags:["ERROR"], data: {test: "pat"}}.to_json}
+
+  before(:each) do
+    authorize('u', 'p')
+  end
 
   def create_entry
     e = Entry.find_or_create(group: group, date: DateTime.now)
@@ -44,8 +49,18 @@ describe 'App' do
     expect(last_response).to be_redirect
   end
 
+  it "requires basic auth" do
+    test_env = ENV["RACK_ENV"]
+    ENV["RACK_ENV"] = "production"
+    get "/"
+    expect(last_response).to be_ok
+    ENV["RACK_ENV"] = test_env
+  end
+
   it "shows you entries" do
-    e = create_entry
+    55.times do
+      e = create_entry
+    end
     get "/entries/#{group.name}/1"
     expect(last_response).to be_ok
     expect(last_response.body).to match(/Home/)
@@ -72,8 +87,14 @@ describe 'App' do
   it "searches groups" do
     e = create_entry
     get "/search/#{group.name}/1?q=test"
-    expect(last_response).to be_ok
+    expect(last_response).to be_ok 
     expect(last_response.body).to match(/Home/)
+  end
+
+  it "downloads searches" do
+    e = create_entry
+    get "/search/#{group.name}/1?q=ERROR&format=csv"
+    expect(last_response).to be_ok
   end
 
   it "searches groups" do

@@ -13,6 +13,8 @@ SimpleCov.start do
 end
 
 ENV['RACK_ENV'] = 'test'
+ENV['APP_USER'] = 'u'
+ENV['APP_PASS'] = 'p'
 
 module RSpecMixin
   include Rack::Test::Methods
