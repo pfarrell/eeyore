@@ -1,13 +1,14 @@
 %ul.list-inline
-  -unless (model[:data].current_page - 1) <= 0
-    %li
-      %a{href:"#{url_for("#{base}/#{model[:data].current_page - 1}")}"}
-        <<
-  -unless (model[:data].current_page + 1) > model[:data].page_count
-    %li
-      %a{href:"#{url_for("#{base}/#{model[:data].current_page + 1}")}"}
-        >>
-  - page_seq(model[:data].current_page, model[:data].page_count).each do |page|
-    %li{class: ("active" if page == model[:data].current_page)}
-      %a{href:"#{url_for("#{base}/#{page}")}"}
-        =page
+  -if model[:data].page_count > 1
+    -unless (model[:data].current_page - 1) <= 0
+      %li
+        %a{href:"#{url_for("#{base}/#{model[:data].current_page - 1}")}"}
+          <<
+    -unless (model[:data].current_page + 1) > model[:data].page_count
+      %li
+        %a{href:"#{url_for("#{base}/#{model[:data].current_page + 1}")}"}
+          >>
+    - page_seq(model[:data].current_page, model[:data].page_count).each do |page|
+      %li{class: ("active" if page == model[:data].current_page)}
+        %a{href:"#{url_for("#{base}/#{page}")}"}
+          =page
