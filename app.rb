@@ -10,7 +10,7 @@ class App < Sinatra::Application
   helpers Sinatra::UrlForHelper
   register Sinatra::RespondTo
 
-  if ENV["RACK"] == "production"
+  if ENV["RACK_ENV"] == "production"
     use Rack::Auth::Basic, "Restricted Area" do |username, password|
       username == ENV["APP_USER"] and password == ENV["APP_PASS"]
     end
