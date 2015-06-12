@@ -8,16 +8,16 @@
       %th
         Number of Successes
   %tbody
-    -errors.each do |listing_id, counts|
+    -errors.each do |e|
       %tr
         %td
           .table-data
-            %a{href: "/entries/#{group.name}/tag/#{listing_id}"}
-              =listing_id
+            %a{href: "/entries/#{group.name}/tag/#{e[:listing_id]}"}
+              =e[:listing_id]
         %td
           .table-data
-            =counts[0]
+            =e[:errors]
         %td
           .table-data
-            =counts[1]
+            =e[:successes]
 

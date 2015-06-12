@@ -32,7 +32,10 @@ class App < Sinatra::Application
   get "/entries/:group/errors" do
     group = Group.find(name: params[:group])
     errors = Report.errors(group)
-    haml :errors, locals: {group: group, errors: errors}
+    respond_to do |wants|
+      wants.html { haml :errors, locals: {group: group, errors: errors} }
+      wants.csv { errors.to_csv }
+    end
   end
 
   get "/entries/:group" do
@@ -47,23 +50,32 @@ class App < Sinatra::Application
     page = params[:page].to_i
     group = Group.find(name: params[:group])
     tag = Tag.find(group: group, tag: params[:tag])
-    data = Entry.filter(group: group).filter(tags: tag).paginate(page, 50)
-    haml :specific, locals: {
-      group: group.name, 
-      tag: params[:tag], 
-      model: {
-        header: specific_header, 
-        data: data
-      }, 
-      base: "/entries/#{group.name}"} 
+    data = Entry.filter(group: group).filter(tags: tag)
+    respond_to do |wants|
+      wants.csv { data.to_csv }
+      wants.html {
+        haml :specific, locals: {
+          group: group.name, 
+          tag: params[:tag], 
+          model: {
+            header: specific_header, 
+            data: data.paginate(page, 50)
+          }, 
+          base: "/entries/#{group.name}"
+        } 
+      }
+    end
   end
   
   get "/entries/:group/:page" do
     page = params[:page].to_i
     group = Group.find(name: params[:group])
     tags = DB[:entries_tags].join(:tags, id: :tag_id).where(group_id: group.id).group_and_count(:tag).order(Sequel.desc(:count))
-    data = Entry.with_tags(group).paginate(page, 50)
-    haml :report, locals: {group: group.name, model: {header: group_header, data: data}, tags: tags} 
+    data = Entry.with_tags(group)
+    respond_to do |wants|
+      wants.csv { data.to_csv }
+      wants.html { haml :report, locals: {group: group.name, model: {header: group_header, data: data.paginate(page, 50)}, tags: tags}} 
+    end
   end
 
 
@@ -97,3 +109,4 @@ class App < Sinatra::Application
     end
   end
 end
+

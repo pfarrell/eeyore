@@ -24,6 +24,25 @@ class App < Sinatra::Application
   before do
     response.set_cookie(:appc, value: SecureRandom.uuid, expires: Time.now + 3600 * 24 * 365 * 10) if request.cookies["bmc"].nil?
   end
+
+  helpers do
+    def save_file(data, file)
+      require 'byebug'
+      byebug
+
+    end
+
+    def download_link
+      path = request.path
+      if path =~ /\?/
+        path = "#{path}&format=csv"
+      else
+        path = "#{path}?format=csv"
+      end
+      path
+    end
+  end
+
 end
 
 require 'models'
