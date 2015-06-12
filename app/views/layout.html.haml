@@ -27,11 +27,13 @@
           .form-group
             %input.form-control{type: "TEXT", id: "q", name: "q", autofocus: true, placeholder: "Search"}
         %ul.nav.navbar-nav
-          %li.active
+          %li
             %a{href:"/entries/gds/errors"}
+              %span.glyphicon.glyphicon-alert
               Unique Errors
           %li
             %a{href:"#{download_link}"}
+              %span.glyphicon.glyphicon-download-alt
               Download
     .container#content
       =yield
