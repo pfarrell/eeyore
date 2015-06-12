@@ -33,13 +33,7 @@ class App < Sinatra::Application
     end
 
     def download_link
-      path = request.path
-      if path =~ /\?/
-        path = "#{path}&format=csv"
-      else
-        path = "#{path}?format=csv"
-      end
-      path
+      "#{request.path}?#{request.query_string}&format=csv"
     end
   end
 

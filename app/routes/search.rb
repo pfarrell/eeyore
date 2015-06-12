@@ -23,14 +23,21 @@ class App < Sinatra::Application
     if tag.nil?
       haml :error, locals: {msg: "No matches"}
     else
-      haml :specific, locals: {
-        group: group.name, 
-        tag: params[:q], 
-        model: {
-          header: search_header, 
-          data: Entry.filter(group: group).filter(tags: tag).paginate(page, 50)
-        }, 
-        base: "/entries/#{group.name}"} 
+      data = Entry.filter(group: group).filter(tags: tag)
+      respond_to do |wants|
+        wants.csv { data.to_csv }
+        wants.html {
+          haml :specific, locals: {
+            group: group.name, 
+            tag: params[:q], 
+            model: {
+              header: search_header, 
+              data: data.paginate(page, 50)
+            }, 
+            base: "/entries/#{group.name}"
+          } 
+        }
+      end
     end
   end
 end
