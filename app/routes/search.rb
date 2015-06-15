@@ -23,7 +23,8 @@ class App < Sinatra::Application
     if tag.nil?
       haml :error, locals: {msg: "No matches"}
     else
-      data = Entry.filter(group: group).filter(tags: tag)
+      #data = Entry.order(Sequel.desc(:date).filter(group: group).filter(tags: tag)
+      data = Entry.filter(group: group).filter(tags: tag).order(Sequel.desc(:date))
       respond_to do |wants|
         wants.csv { data.to_csv }
         wants.html {
