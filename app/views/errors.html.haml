@@ -1,26 +1,44 @@
-#{errors.select{|x| x[:successes] == 0}.size} Unresolved Errors
-#{errors.select{|x| x[:successes] > 0}.size} Resolved Errors
-#{errors.size} Errors
-%table.table.table-condensed
-  %thead
-    %tr
-      %th
-        ListingId
-      %th
-        Number of Errors
-      %th
-        Number of Successes
-  %tbody
-    -errors.each do |e|
+.row
+  .col-md-4
+    %table.table.table-condensed.table-hover
+      %tbody
+        %tr
+          %td
+            Unresolved Errors
+          %td
+            #{errors.select{|x| x[:successes] == 0}.size} 
+        %tr
+          %td
+            Resolved Errors
+          %td
+            #{errors.select{|x| x[:successes] > 0}.size} 
+        %tr
+          %td
+            Errors
+          %td
+            #{errors.size} 
+.row
+  .col-md-12
+  %table.table.table-condensed.table-hover
+    %thead
       %tr
-        %td
-          .table-data
-            %a{href: "/entries/#{group.name}/tag/#{e[:listing_id]}"}
-              =e[:listing_id]
-        %td
-          .table-data
-            =e[:errors]
-        %td
-          .table-data
-            =e[:successes]
+        %th
+          ListingId
+        %th
+          Number of Errors
+        %th
+          Number of Successes
+    %tbody
+      -errors.each do |e|
+        %tr{class: ("danger" if e[:successes] == 0)}
+          %td
+            .table-data
+              %a{href: "/entries/#{group.name}/tag/#{e[:listing_id]}"}
+                =e[:listing_id]
+          %td
+            .table-data
+              =e[:errors]
+          %td
+            .table-data
+              =e[:successes]
 
