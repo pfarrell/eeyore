@@ -34,7 +34,10 @@ class App < Sinatra::Application
     errors = Report.errors(group)
     respond_to do |wants|
       wants.html { haml :errors, locals: {group: group, errors: errors} }
-      wants.csv { errors.to_csv }
+      wants.csv { 
+        errors.insert(0, {:listing_id=>"ListingID", :errors=>"Errors", :successes=>"Successes"})
+        errors.to_csv 
+      }
     end
   end
 
