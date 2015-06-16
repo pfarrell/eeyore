@@ -1,3 +1,6 @@
+#{errors.select{|x| x[:successes] == 0}.size} Unresolved Errors
+#{errors.select{|x| x[:successes] > 0}.size} Resolved Errors
+#{errors.size} Errors
 %table.table.table-condensed
   %thead
     %tr
