@@ -30,7 +30,7 @@
           Number of Successes
     %tbody
       -errors.each do |e|
-        %tr{class: ("danger" if e[:successes] == 0)}
+        %tr{class: "#{e[:successes] > 0 ? "success": "danger"}"}
           %td
             .table-data
               %a{href: "/entries/#{group.name}/tag/#{e[:listing_id]}"}
