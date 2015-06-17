@@ -53,7 +53,7 @@ class App < Sinatra::Application
     page = params[:page].to_i
     group = Group.find(name: params[:group])
     tag = Tag.find(group: group, tag: params[:tag])
-    data = Entry.filter(group: group).filter(tags: tag)
+    data = Entry.order(Sequel.desc(:date)).filter(group: group).filter(tags: tag)
     respond_to do |wants|
       wants.csv { data.to_csv }
       wants.html {
