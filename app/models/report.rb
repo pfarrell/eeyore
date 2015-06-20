@@ -1,7 +1,7 @@
 class Report
   def self.errors(group)
     error_tag = Tag.find(group: group, tag: "ERROR")
-    debug_tag = Tag.find(group: group, tag: "DEBUG")
+    debug_tag = Tag.find(group: group, tag: "sendGDSResponseToAnalytics")
     errors=[]
     unique_errors={}
     error_tag.entries.map{|entry| unique_errors[entry.data["listing_id"]] = 0} 
