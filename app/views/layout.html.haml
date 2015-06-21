@@ -28,6 +28,10 @@
             %input.form-control{type: "TEXT", id: "q", name: "q", autofocus: true, placeholder: "Search"}
         %ul.nav.navbar-nav
           %li
+            %p.navbar-btn
+              %a.btn.btn-warning{href:"#{url_for("/entries/gds")}"}
+                GDS
+          %li
             %a{href:"/entries/gds/errors"}
               %span.glyphicon.glyphicon-alert
               Unique Errors
