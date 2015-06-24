@@ -23,6 +23,7 @@ class App < Sinatra::Application
 
   before do
     response.set_cookie(:appc, value: SecureRandom.uuid, expires: Time.now + 3600 * 24 * 365 * 10) if request.cookies["bmc"].nil?
+    redirect "/" unless request.path == "/"
   end
 
   helpers do
