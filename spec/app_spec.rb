@@ -36,7 +36,7 @@ describe 'App' do
     expect(last_response).to be_ok
   end
 
-  it "gives you uniqe errors" do
+  it "gives you unique errors" do
     e = create_entry
     get "/entries/#{group.name}/errors"
     expect(last_response).to be_ok
