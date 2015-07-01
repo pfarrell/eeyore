@@ -1,3 +1,7 @@
 %h1
-  %a{href: "http://np32.c1.dev:9292"}
-    GDS Error Reports have moved
+  Select a data type to report 
+-groups.each do |group|
+  %p
+    %a.btn.btn-lg.btn-warning{href:"#{url_for("/entries/#{group.name}")}"}
+      #{group.name.upcase}
+

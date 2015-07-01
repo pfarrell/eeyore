@@ -10,20 +10,12 @@ class App < Sinatra::Application
   helpers Sinatra::UrlForHelper
   register Sinatra::RespondTo
 
-  unless ["production", "test"].select{|x| x == ENV["RACK_ENV"]}.empty?
-    use Rack::Auth::Basic, "Restricted Area" do |username, password|
-      username == ENV["APP_USER"] and password == ENV["APP_PASS"]
-    end
-  end
-
-
   enable :sessions
   set :session_secret, ENV["APP_SESSION_SECRET"] || "youshouldreallychangethis"
   set :views, Proc.new { File.join(root, "app/views") }
 
   before do
     response.set_cookie(:appc, value: SecureRandom.uuid, expires: Time.now + 3600 * 24 * 365 * 10) if request.cookies["bmc"].nil?
-    redirect "/" unless request.path == "/"
   end
 
   helpers do
